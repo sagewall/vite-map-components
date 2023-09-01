@@ -10,31 +10,23 @@ defineCalciteElements(window, {
 });
 defineMapElements();
 
-const layerListAction = document.querySelector(
-  "#layer-list-action"
-) as HTMLCalciteActionElement;
-const legendAction = document.querySelector(
-  "#legend-action"
-) as HTMLCalciteActionElement;
-const layerListBlock = document.querySelector(
-  "#layer-list-block"
-) as HTMLCalciteBlockElement;
-const legendBlock = document.querySelector(
-  "#legend-block"
-) as HTMLCalciteBlockElement;
+const shellPanel = document.querySelector(
+  "#shell-panel"
+) as HTMLCalciteShellPanelElement;
 
-layerListAction?.addEventListener("click", () => {
-  layerListAction.active = true;
-  layerListBlock.open = true;
+shellPanel.querySelectorAll("calcite-action").forEach((action) => {
+  action.addEventListener("click", (event) => {
+    const target = event.target as HTMLCalciteActionElement;
+    shellPanel.querySelectorAll("calcite-block").forEach((block) => {
+      block.id.split("-")[0] === target.id.split("-")[0]
+        ? (block.open = true)
+        : (block.open = false);
+    });
 
-  legendAction.active = false;
-  legendBlock.open = false;
-});
-
-legendAction?.addEventListener("click", () => {
-  layerListAction.active = false;
-  layerListBlock.open = false;
-
-  legendAction.active = true;
-  legendBlock.open = true;
+    shellPanel.querySelectorAll("calcite-action").forEach((action) => {
+      action.id === target.id
+        ? (action.active = true)
+        : (action.active = false);
+    });
+  });
 });
