@@ -1,12 +1,12 @@
 import "./style.css";
 import "@esri/calcite-components/dist/calcite/calcite.css";
-import "@arcgis/map-components/node_modules/@arcgis/core/assets/esri/themes/light/main.css";
+import "@arcgis/core/assets/esri/themes/light/main.css";
 
 import { defineCustomElements as defineCalciteElements } from "@esri/calcite-components/dist/loader";
 import { defineCustomElements as defineMapElements } from "@arcgis/map-components/dist/loader";
 
 defineCalciteElements(window, {
-  resourcesUrl: "https://js.arcgis.com/calcite-components/1.6.1/assets",
+  resourcesUrl: "https://js.arcgis.com/calcite-components/1.7.0/assets",
 });
 defineMapElements();
 
