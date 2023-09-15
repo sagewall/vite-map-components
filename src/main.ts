@@ -1,12 +1,10 @@
-import "./style.css";
-import "@esri/calcite-components/dist/calcite/calcite.css";
 import "@arcgis/core/assets/esri/themes/light/main.css";
-import type ListItem from "@arcgis/core/widgets/LayerList/ListItem.js";
-import ListItemPanel from "@arcgis/core/widgets/LayerList/ListItemPanel";
 import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import "@esri/calcite-components/dist/calcite/calcite.css";
+import "./style.css";
 
-import { defineCustomElements as defineCalciteElements } from "@esri/calcite-components/dist/loader";
 import { defineCustomElements as defineMapElements } from "@arcgis/map-components/dist/loader";
+import { defineCustomElements as defineCalciteElements } from "@esri/calcite-components/dist/loader";
 
 defineCalciteElements(window, {
   resourcesUrl: "https://js.arcgis.com/calcite-components/1.7.0/assets",
