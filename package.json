@@ -9,8 +9,8 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@arcgis/map-components": "^1.0.0-test.0",
+    "@arcgis/map-components": "^4.28.0-beta.39",
     "typescript": "^5.2.2",
-    "vite": "^4.4.9"
+    "vite": "^4.5.0"
   }
 }
