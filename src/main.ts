@@ -1,18 +1,24 @@
-import "@arcgis/core/assets/esri/themes/light/main.css";
+import type WebMap from "@arcgis/core/WebMap";
 import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import type LayerList from "@arcgis/core/widgets/LayerList";
 import "@esri/calcite-components/dist/calcite/calcite.css";
 import "./style.css";
 
-import { defineCustomElements as defineMapElements } from "@arcgis/map-components/dist/loader";
+import {
+  ArcgisLayerListCustomEvent,
+  ArcgisMapCustomEvent,
+  defineCustomElements as defineMapElements,
+} from "@arcgis/map-components/dist/loader";
 import { defineCustomElements as defineCalciteElements } from "@esri/calcite-components/dist/loader";
 
 defineCalciteElements(window, {
-  resourcesUrl: "https://js.arcgis.com/calcite-components/1.9.2/assets",
+  resourcesUrl: "https://js.arcgis.com/calcite-components/2.0.0/assets",
 });
 defineMapElements();
 
 const arcgisLayerList = document.querySelector("arcgis-layer-list");
 const arcgisMap = document.querySelector("arcgis-map");
+const navigationLogo = document.querySelector("calcite-navigation-logo");
 
 const shellPanel = document.querySelector(
   "#shell-panel"
@@ -35,24 +41,45 @@ shellPanel.querySelectorAll("calcite-action").forEach((action) => {
   });
 });
 
-arcgisLayerList?.addEventListener("widgetReady", () => {
-  handleLayerListReady();
+arcgisLayerList?.addEventListener("widgetReady", (event) => {
+  handleLayerListReady(event);
 });
 
-arcgisMap?.addEventListener("viewReady", async () => {
-  handleViewReady();
+arcgisMap?.addEventListener("viewReady", async (event) => {
+  handleViewReady(event);
 });
 
-function handleLayerListReady() {
-  const layerList = arcgisLayerList!.widget;
+function handleLayerListReady(
+  event: ArcgisLayerListCustomEvent<{
+    widget: LayerList;
+  }>
+) {
+  const layerList = event.target.widget;
   layerList.listItemCreatedFunction = listItemCreatedFuntion;
+  layerList.visibleElements.collapseButton = true;
+  layerList.visibleElements.closeButton = true;
+  layerList.visibleElements.filter = true;
+  layerList.visibleElements.heading = true;
+  layerList.filterPlaceholder = "Filter layers";
 }
 
-async function handleViewReady() {
-  const mapView = arcgisMap!.view;
-  await mapView.when();
+async function handleViewReady(
+  event: ArcgisMapCustomEvent<{
+    view: __esri.MapView;
+  }>
+) {
+  const mapView = event.target.view;
 
-  const hazardAreasFeatureLayer = mapView.map.layers.find(
+  const map = mapView.map as WebMap;
+  const { portalItem } = map;
+
+  navigationLogo!.heading = portalItem.title;
+  navigationLogo!.description = portalItem.snippet;
+  navigationLogo!.thumbnail = portalItem.thumbnailUrl;
+  navigationLogo!.href = portalItem.itemPageUrl;
+  navigationLogo!.label = "Thumbnail of map";
+
+  const hazardAreasFeatureLayer = map.layers.find(
     (layer) => layer.title === "Hazard Areas"
   ) as FeatureLayer;
 
