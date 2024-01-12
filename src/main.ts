@@ -1,18 +1,17 @@
 import type WebMap from "@arcgis/core/WebMap";
+import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import type LayerList from "@arcgis/core/widgets/LayerList";
 import "@esri/calcite-components/dist/calcite/calcite.css";
 import "./style.css";
 
 import {
-  ArcgisLayerListCustomEvent,
   ArcgisMapCustomEvent,
   defineCustomElements as defineMapElements,
 } from "@arcgis/map-components/dist/loader";
 import { defineCustomElements as defineCalciteElements } from "@esri/calcite-components/dist/loader";
 
 defineCalciteElements(window, {
-  resourcesUrl: "https://js.arcgis.com/calcite-components/2.0.0/assets",
+  resourcesUrl: "https://js.arcgis.com/calcite-components/2.1.0/assets",
 });
 defineMapElements();
 
@@ -41,26 +40,56 @@ shellPanel.querySelectorAll("calcite-action").forEach((action) => {
   });
 });
 
-arcgisLayerList?.addEventListener("widgetReady", (event) => {
-  handleLayerListReady(event);
-});
+if (arcgisMap) {
+  arcgisMap.addEventListener("arcgisViewChange", (event) => {
+    console.log("extent", event.target.extent);
+  });
 
-arcgisMap?.addEventListener("viewReady", async (event) => {
-  handleViewReady(event);
-});
+  arcgisMap.addEventListener("arcgisViewReadyChange", async (event) => {
+    handleViewReady(event);
+  });
+}
 
-function handleLayerListReady(
-  event: ArcgisLayerListCustomEvent<{
-    widget: LayerList;
-  }>
-) {
-  const layerList = event.target.widget;
-  layerList.listItemCreatedFunction = listItemCreatedFuntion;
-  layerList.visibleElements.collapseButton = true;
-  layerList.visibleElements.closeButton = true;
-  layerList.visibleElements.filter = true;
-  layerList.visibleElements.heading = true;
-  layerList.filterPlaceholder = "Filter layers";
+if (arcgisLayerList) {
+  arcgisLayerList.listItemCreatedFunction = listItemCreatedFuntion;
+  arcgisLayerList.multipleSelectionEnabled = true;
+  arcgisLayerList.selectionEnabled = true;
+
+  arcgisLayerList.visibleElements = {
+    ...arcgisLayerList.visibleElements,
+    ...{
+      collapseButton: true,
+      closeButton: true,
+      filter: true,
+      heading: true,
+    },
+  };
+
+  arcgisLayerList.addEventListener("widgetReady", async (event) => {
+    const { widget } = event.detail;
+    console.log("widget.selectedItems: ", widget.selectedItems);
+    console.log("component.selectedItems: ", arcgisLayerList.selectedItems); // this is undefined
+    reactiveUtils.watch(
+      () => widget.selectedItems.map((selectedItem) => selectedItem),
+      (selectedItems) => {
+        console.log("LayerList Number of selected items", selectedItems.length);
+        console.log("Component selected items", arcgisLayerList.selectedItems); // this is undefined.  Is it really a property
+        selectedItems.forEach((selectedItem) =>
+          console.log(selectedItem.layer.title)
+        );
+      }
+    );
+  });
+
+  arcgisLayerList.addEventListener("triggerActionEvent", async (event) => {
+    console.log(event);
+    const { action, item } = event.detail;
+    const layer = item.layer as FeatureLayer; // I know it's sloppy, but I'm lazy
+    await layer.load();
+    if (action.id === "information") {
+      window.open(layer.url);
+    }
+  });
 }
 
 async function handleViewReady(
@@ -88,10 +117,20 @@ async function handleViewReady(
 }
 
 function listItemCreatedFuntion(event: any) {
-  const item = event.item;
+  const { item } = event;
   if (item.layer.type != "group") {
     item.panel = {
       content: "legend",
     };
   }
+
+  item.actionsSections = [
+    [
+      {
+        title: "Information",
+        icon: "information",
+        id: "information",
+      },
+    ],
+  ];
 }
