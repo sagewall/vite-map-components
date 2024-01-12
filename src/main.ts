@@ -40,16 +40,6 @@ shellPanel.querySelectorAll("calcite-action").forEach((action) => {
   });
 });
 
-if (arcgisMap) {
-  arcgisMap.addEventListener("arcgisViewChange", (event) => {
-    console.log("extent", event.target.extent);
-  });
-
-  arcgisMap.addEventListener("arcgisViewReadyChange", async (event) => {
-    handleViewReady(event);
-  });
-}
-
 if (arcgisLayerList) {
   arcgisLayerList.listItemCreatedFunction = listItemCreatedFuntion;
   arcgisLayerList.multipleSelectionEnabled = true;
@@ -68,12 +58,12 @@ if (arcgisLayerList) {
   arcgisLayerList.addEventListener("widgetReady", async (event) => {
     const { widget } = event.detail;
     console.log("widget.selectedItems: ", widget.selectedItems);
-    console.log("component.selectedItems: ", arcgisLayerList.selectedItems); // this is undefined
+    console.log("component.selectedItems: ", arcgisLayerList.selectedItems);
     reactiveUtils.watch(
       () => widget.selectedItems.map((selectedItem) => selectedItem),
       (selectedItems) => {
         console.log("LayerList Number of selected items", selectedItems.length);
-        console.log("Component selected items", arcgisLayerList.selectedItems); // this is undefined.  Is it really a property
+        console.log("Component selected items", arcgisLayerList.selectedItems);
         selectedItems.forEach((selectedItem) =>
           console.log(selectedItem.layer.title)
         );
@@ -91,6 +81,15 @@ if (arcgisLayerList) {
     }
   });
 }
+
+arcgisMap?.addEventListener("arcgisViewReadyChange", async (event) => {
+  handleViewReady(event);
+});
+
+// Strange when I add this the widgets fail to load properly
+// arcgisMap?.addEventListener("arcgisViewChange", (event) => {
+//   console.log("extent", event.target.extent);
+// });
 
 async function handleViewReady(
   event: ArcgisMapCustomEvent<{
