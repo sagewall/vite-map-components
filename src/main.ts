@@ -11,7 +11,7 @@ import {
 import { defineCustomElements as defineCalciteElements } from "@esri/calcite-components/dist/loader";
 
 defineCalciteElements(window, {
-  resourcesUrl: "https://js.arcgis.com/calcite-components/2.1.0/assets",
+  resourcesUrl: "https://js.arcgis.com/calcite-components/2.3.0/assets",
 });
 defineMapElements();
 
@@ -41,37 +41,38 @@ shellPanel.querySelectorAll("calcite-action").forEach((action) => {
 });
 
 if (arcgisLayerList) {
-  arcgisLayerList.listItemCreatedFunction = listItemCreatedFuntion;
-  arcgisLayerList.multipleSelectionEnabled = true;
-  arcgisLayerList.selectionEnabled = true;
+  arcgisLayerList.listItemCreatedFunction = listItemCreatedFunction;
+  arcgisLayerList.selectionMode = "single";
+  arcgisLayerList.dragEnabled = true;
 
-  arcgisLayerList.visibleElements = {
-    ...arcgisLayerList.visibleElements,
-    ...{
-      collapseButton: true,
-      closeButton: true,
-      filter: true,
-      heading: true,
-    },
-  };
+  // arcgisLayerList.visibleElements = {
+  //   ...arcgisLayerList.visibleElements,
+  //   ...{
+  //     collapseButton: true,
+  //     closeButton: true,
+  //     filter: true,
+  //     heading: true,
+  //   },
+  // };
 
-  arcgisLayerList.addEventListener("widgetReady", async (event) => {
-    const { widget } = event.detail;
-    console.log("widget.selectedItems: ", widget.selectedItems);
-    console.log("component.selectedItems: ", arcgisLayerList.selectedItems);
-    reactiveUtils.watch(
-      () => widget.selectedItems.map((selectedItem) => selectedItem),
-      (selectedItems) => {
-        console.log("LayerList Number of selected items", selectedItems.length);
-        console.log("Component selected items", arcgisLayerList.selectedItems);
-        selectedItems.forEach((selectedItem) =>
-          console.log(selectedItem.layer.title)
-        );
-      }
-    );
+  arcgisLayerList.addEventListener("arcgisLayerListReady", async (event) => {
+    const layerListComponent = event.target as HTMLArcgisLayerListElement;
+    console.log("arcgisLayerListReady", layerListComponent);
+    // selected items does't seem to be reactive
+    console.log("component.selectedItems: ", layerListComponent.selectedItems);
+    // reactiveUtils.watch(
+    //   () =>
+    //     layerListComponent.selectedItems.map((selectedItem) => selectedItem),
+    //   (selectedItems) => {
+    //     console.log("LayerList Number of selected items", selectedItems.length);
+    //     selectedItems.forEach((selectedItem) =>
+    //       console.log(selectedItem.layer.title)
+    //     );
+    //   }
+    // );
   });
 
-  arcgisLayerList.addEventListener("triggerActionEvent", async (event) => {
+  arcgisLayerList.addEventListener("layerListTriggerAction", async (event) => {
     console.log(event);
     const { action, item } = event.detail;
     const layer = item.layer as FeatureLayer; // I know it's sloppy, but I'm lazy
@@ -115,7 +116,7 @@ async function handleViewReady(
   mapView.goTo(result.features);
 }
 
-function listItemCreatedFuntion(event: any) {
+function listItemCreatedFunction(event: any) {
   const { item } = event;
   if (item.layer.type != "group") {
     item.panel = {
@@ -133,3 +134,23 @@ function listItemCreatedFuntion(event: any) {
     ],
   ];
 }
+
+// // Options for the observer (which mutations to observe)
+// const config = { attributes: true, childList: true, subtree: true };
+
+// // Callback function to execute when mutations are observed
+// const callback = (mutationList: any, observer) => {
+//   for (const mutation of mutationList) {
+//     if (mutation.type === "childList") {
+//       console.log("A child node has been added or removed.");
+//     } else if (mutation.type === "attributes") {
+//       console.log(`The ${mutation.attributeName} attribute was modified.`);
+//     }
+//   }
+// };
+
+// // Create an observer instance linked to the callback function
+// const observer = new MutationObserver(callback);
+
+// // Start observing the target node for configured mutations
+// observer.observe(arcgisLayerList as HTMLArcgisLayerListElement, config);
