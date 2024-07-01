@@ -1,3 +1,5 @@
+import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import type ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import { defineCustomElements as defineMapElements } from "@arcgis/map-components/dist/loader";
 import { defineCustomElements as defineCalciteElements } from "@esri/calcite-components/dist/loader";
 import "./style.css";
@@ -49,7 +51,28 @@ if (arcgisMap && navigationLogo) {
 
 if (arcgisLayerList) {
   arcgisLayerList.addEventListener("arcgisReady", () => {
-    arcgisLayerList.showFilter = true;
+    arcgisLayerList.selectedItems.on(
+      "change",
+      (event: {
+        added: Array<ListItem>;
+        moved: Array<ListItem>;
+        removed: Array<ListItem>;
+      }) => {
+        arcgisLayerList.selectedItems.forEach((item: ListItem) => {
+          console.log(item.layer.title);
+        });
+        event.added.forEach((item: ListItem) => {
+          if (item.layer.type === "feature") {
+            (item.layer as FeatureLayer).effect = "opacity(0.5)";
+          }
+        });
+        event.removed.forEach((item: ListItem) => {
+          if (item.layer.type === "feature") {
+            (item.layer as FeatureLayer).effect = "none";
+          }
+        });
+      }
+    );
     arcgisLayerList.listItemCreatedFunction = (event) => {
       const { item } = event;
       if (item.layer.type != "group") {
@@ -79,9 +102,5 @@ if (arcgisLayerList) {
         window.open(url);
       }
     }
-  });
-
-  arcgisLayerList.addEventListener("arcgisPropertyChange", (event) => {
-    console.log("arcgisPropertyChange", event);
   });
 }
