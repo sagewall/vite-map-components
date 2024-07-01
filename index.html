@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Map Components</title>
+    <title>Vite + TS</title>
   </head>
   <body>
     <calcite-shell>
       <calcite-navigation slot="header">
         <calcite-navigation-logo slot="logo" />
-    </calcite-navigation>
+      </calcite-navigation>
       <calcite-shell-panel id="shell-panel" slot="panel-start" position="start">
         <calcite-action-bar id="action-bar" slot="action-bar">
           <calcite-action
@@ -24,25 +24,27 @@
             icon="legend"
             text="Legend"
           ></calcite-action>
-          <calcite-action
-            id="editor-action"
-            icon="layers-editable"
-            text="Editor"
-          ></calcite-action>
         </calcite-action-bar>
-        <calcite-block id="layer-list-block" open>
-          <arcgis-layer-list reference-element="arcgis-map" />
-        </calcite-block>
-        <calcite-block id="legend-block">
-          <arcgis-legend reference-element="arcgis-map" />
-        </calcite-block>
-        <calcite-block id="editor-block">
-          <arcgis-editor reference-element="arcgis-map" />
-        </calcite-block>
+        <div class="scroll-container">
+          <calcite-block id="layer-list-block" open>
+            <arcgis-layer-list
+              drag-enabled
+              reference-element="arcgis-map"
+              min-filter-items="1"
+              selection-mode="multiple"
+              show-filter
+              show-heading
+              visibility-appearance="checkbox"
+            />
+          </calcite-block>
+          <calcite-block hidden id="legend-block">
+            <arcgis-legend reference-element="arcgis-map" />
+          </calcite-block>
+        </div>
       </calcite-shell-panel>
       <arcgis-map
         id="arcgis-map"
-        item-id="459a495fc16d4d4caa35e92e895694c8"
+        item-id="ef2644781da844648e8bb30ab52a02bc"
       ></arcgis-map>
     </calcite-shell>
     <script type="module" src="/src/main.ts"></script>
