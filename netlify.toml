@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build"
+  publish = "build"
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Feature-Policy = "payment 'self'; geolocation 'self';"
+    Referrer-Policy = "same-origin"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"
