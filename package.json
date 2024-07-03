@@ -22,6 +22,6 @@
   },
   "dependencies": {
     "@arcgis/map-components": "^4.30.1",
-    "@esri/calcite-components": "^2.10.1"
+    "@esri/calcite-components": "2.8.5"
   }
 }

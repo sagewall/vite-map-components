@@ -5,7 +5,7 @@ import { defineCustomElements as defineCalciteElements } from "@esri/calcite-com
 import "./style.css";
 
 defineCalciteElements(window, {
-  resourcesUrl: "https://js.arcgis.com/calcite-components/2.10.1/assets",
+  resourcesUrl: "https://js.arcgis.com/calcite-components/2.8.5/assets",
 });
 defineMapElements();
 
