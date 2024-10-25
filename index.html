@@ -7,11 +7,16 @@
     <title>Vite + TS</title>
   </head>
   <body>
-    <calcite-shell>
+    <calcite-shell content-behind>
       <calcite-navigation slot="header">
         <calcite-navigation-logo slot="logo" />
       </calcite-navigation>
-      <calcite-shell-panel id="shell-panel" slot="panel-start" position="start">
+      <calcite-shell-panel
+        display-mode="float"
+        id="shell-panel"
+        slot="panel-start"
+        position="start"
+      >
         <calcite-action-bar id="action-bar" slot="action-bar">
           <calcite-action
             active
@@ -25,7 +30,7 @@
             text="Legend"
           ></calcite-action>
         </calcite-action-bar>
-        <div class="scroll-container">
+        <calcite-panel>
           <calcite-block id="layer-list-block" open>
             <arcgis-layer-list
               drag-enabled
@@ -33,14 +38,13 @@
               min-filter-items="1"
               selection-mode="multiple"
               show-filter
-              show-heading
               visibility-appearance="checkbox"
             />
           </calcite-block>
           <calcite-block hidden id="legend-block">
             <arcgis-legend reference-element="arcgis-map" />
           </calcite-block>
-        </div>
+        </calcite-panel>
       </calcite-shell-panel>
       <arcgis-map
         id="arcgis-map"

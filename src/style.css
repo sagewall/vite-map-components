@@ -4,7 +4,3 @@
 arcgis-map {
   flex: 1;
 }
-
-.scroll-container {
-  overflow-y: auto;
-}

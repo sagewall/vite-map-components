@@ -1,13 +1,20 @@
 import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import type ListItem from "@arcgis/core/widgets/LayerList/ListItem";
-import { defineCustomElements as defineMapElements } from "@arcgis/map-components/dist/loader";
-import { defineCustomElements as defineCalciteElements } from "@esri/calcite-components/dist/loader";
+import "@arcgis/map-components/dist/components/arcgis-layer-list";
+import "@arcgis/map-components/dist/components/arcgis-legend";
+import "@arcgis/map-components/dist/components/arcgis-map";
+import { setAssetPath } from "@esri/calcite-components/dist/components";
+import "@esri/calcite-components/dist/components/calcite-action";
+import "@esri/calcite-components/dist/components/calcite-action-bar";
+import "@esri/calcite-components/dist/components/calcite-block";
+import "@esri/calcite-components/dist/components/calcite-button";
+import "@esri/calcite-components/dist/components/calcite-navigation";
+import "@esri/calcite-components/dist/components/calcite-navigation-logo";
+import "@esri/calcite-components/dist/components/calcite-shell";
+import "@esri/calcite-components/dist/components/calcite-shell-panel";
 import "./style.css";
 
-defineCalciteElements(window, {
-  resourcesUrl: "https://js.arcgis.com/calcite-components/2.8.5/assets",
-});
-defineMapElements();
+setAssetPath("https://js.arcgis.com/calcite-components/2.13.1/assets");
 
 const arcgisLayerList = document.querySelector("arcgis-layer-list");
 const arcgisMap = document.querySelector("arcgis-map");
@@ -29,9 +36,11 @@ if (shellPanel) {
       });
 
       shellPanel.querySelectorAll("calcite-action").forEach((action) => {
-        action.id === target.id
-          ? (action.active = true)
-          : (action.active = false);
+        if (action.id === target.id) {
+          action.active = true;
+        } else {
+          action.active = false;
+        }
       });
     });
   });
