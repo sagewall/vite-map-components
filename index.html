@@ -9,7 +9,28 @@
   <body>
     <calcite-shell content-behind>
       <calcite-navigation slot="header">
-        <calcite-navigation-logo slot="logo" />
+        <calcite-navigation-logo slot="logo"></calcite-navigation-logo>
+        <calcite-menu slot="content-end">
+          <calcite-menu-item
+            active
+            id="home"
+            icon-start="home"
+            text="Home"
+            text-enabled
+          ></calcite-menu-item>
+          <calcite-menu-item
+            id="stats"
+            icon-start="license"
+            text="Stats"
+            text-enabled
+          ></calcite-menu-item>
+          <calcite-menu-item
+            id="bundleStats"
+            text="Bundle Stats"
+            icon-start="road-sign"
+            text-enabled
+          ></calcite-menu-item>
+        </calcite-menu>
       </calcite-navigation>
       <calcite-shell-panel
         display-mode="float"
@@ -31,7 +52,12 @@
           ></calcite-action>
         </calcite-action-bar>
         <calcite-panel>
-          <calcite-block id="layer-list-block" open>
+          <calcite-block
+            id="layer-list-block"
+            heading="Layer List"
+            label="Layer List"
+            open
+          >
             <arcgis-layer-list
               drag-enabled
               reference-element="arcgis-map"
@@ -41,7 +67,12 @@
               visibility-appearance="checkbox"
             ></arcgis-layer-list>
           </calcite-block>
-          <calcite-block hidden id="legend-block">
+          <calcite-block
+            id="legend-block"
+            hidden
+            heading="Legend"
+            label="Legend"
+          >
             <arcgis-legend reference-element="arcgis-map"></arcgis-legend>
           </calcite-block>
         </calcite-panel>

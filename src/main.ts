@@ -1,4 +1,5 @@
 import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import type WebMap from "@arcgis/core/WebMap";
 import type ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import "@arcgis/map-components/dist/components/arcgis-layer-list";
 import "@arcgis/map-components/dist/components/arcgis-legend";
@@ -8,6 +9,8 @@ import "@esri/calcite-components/dist/components/calcite-action";
 import "@esri/calcite-components/dist/components/calcite-action-bar";
 import "@esri/calcite-components/dist/components/calcite-block";
 import "@esri/calcite-components/dist/components/calcite-button";
+import "@esri/calcite-components/dist/components/calcite-menu";
+import "@esri/calcite-components/dist/components/calcite-menu-item";
 import "@esri/calcite-components/dist/components/calcite-navigation";
 import "@esri/calcite-components/dist/components/calcite-navigation-logo";
 import "@esri/calcite-components/dist/components/calcite-shell";
@@ -18,10 +21,16 @@ setAssetPath(
   "https://cdn.jsdelivr.net/npm/@esri/calcite-components@3.0.0-next.89/dist/calcite/assets"
 );
 
-const arcgisLayerList = document.querySelector("arcgis-layer-list");
-const arcgisMap = document.querySelector("arcgis-map");
-const navigationLogo = document.querySelector("calcite-navigation-logo");
-const shellPanel = document.querySelector("#shell-panel");
+const arcgisLayerList = document.querySelector(
+  "arcgis-layer-list"
+) as HTMLArcgisLayerListElement;
+const arcgisMap = document.querySelector("arcgis-map") as HTMLArcgisMapElement;
+const navigationLogo = document.querySelector(
+  "calcite-navigation-logo"
+) as HTMLCalciteNavigationLogoElement;
+const shellPanel = document.querySelector(
+  "#shell-panel"
+) as HTMLCalciteShellPanelElement;
 
 if (shellPanel) {
   shellPanel.querySelectorAll("calcite-action").forEach((action) => {
@@ -51,7 +60,7 @@ if (shellPanel) {
 if (arcgisMap && navigationLogo) {
   arcgisMap.addEventListener("arcgisViewReadyChange", (event) => {
     const { map } = event.target;
-    const { portalItem } = map;
+    const { portalItem } = map as WebMap;
     navigationLogo.heading = portalItem.title;
     navigationLogo.description = portalItem.snippet;
     navigationLogo.thumbnail = portalItem.thumbnailUrl;
@@ -115,3 +124,21 @@ if (arcgisLayerList) {
     }
   });
 }
+
+document.querySelectorAll("calcite-menu-item").forEach((menuItem) => {
+  menuItem.addEventListener("calciteMenuItemSelect", (event) => {
+    console.log(event.target);
+    const target = event.target as HTMLCalciteMenuItemElement;
+    switch (target.id) {
+      case "home":
+        window.location.href = "/index.html";
+        break;
+      case "stats":
+        window.location.href = "/stats.html";
+        break;
+      case "bundleStats":
+        window.location.href = "/bundle-stats.html";
+        break;
+    }
+  });
+});
