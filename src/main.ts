@@ -14,7 +14,9 @@ import "@esri/calcite-components/dist/components/calcite-shell";
 import "@esri/calcite-components/dist/components/calcite-shell-panel";
 import "./style.css";
 
-setAssetPath("https://js.arcgis.com/calcite-components/2.13.2/assets");
+setAssetPath(
+  "https://cdn.jsdelivr.net/npm/@esri/calcite-components@3.0.0-next.89/dist/calcite/assets"
+);
 
 const arcgisLayerList = document.querySelector("arcgis-layer-list");
 const arcgisMap = document.querySelector("arcgis-map");
