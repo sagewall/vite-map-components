@@ -1,2 +1,16 @@
 @import "@arcgis/core/assets/esri/themes/light/main.css";
 @import "@esri/calcite-components/dist/calcite/calcite.css";
+
+html,
+body {
+  margin: 0;
+  height: 100vh;
+}
+
+arcgis-map {
+  flex: 1;
+}
+
+arcgis-feature-table {
+  flex: 0.5;
+}

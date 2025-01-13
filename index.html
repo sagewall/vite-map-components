@@ -7,80 +7,15 @@
     <title>ArcGIS Map Components</title>
   </head>
   <body>
-    <calcite-shell content-behind>
-      <calcite-navigation slot="header">
-        <calcite-navigation-logo slot="logo"></calcite-navigation-logo>
-        <calcite-menu slot="content-end">
-          <calcite-menu-item
-            active
-            id="home"
-            icon-start="home"
-            text="Home"
-            text-enabled
-          ></calcite-menu-item>
-          <calcite-menu-item
-            id="stats"
-            icon-start="license"
-            text="Stats"
-            text-enabled
-          ></calcite-menu-item>
-          <calcite-menu-item
-            id="bundleStats"
-            text="Bundle Stats"
-            icon-start="road-sign"
-            text-enabled
-          ></calcite-menu-item>
-        </calcite-menu>
-      </calcite-navigation>
-      <calcite-shell-panel
-        display-mode="float"
-        id="shell-panel"
-        slot="panel-start"
-        position="start"
-      >
-        <calcite-action-bar id="action-bar" slot="action-bar">
-          <calcite-action
-            active
-            id="layer-list-action"
-            icon="layers"
-            text="Layer List"
-          ></calcite-action>
-          <calcite-action
-            id="legend-action"
-            icon="legend"
-            text="Legend"
-          ></calcite-action>
-        </calcite-action-bar>
-        <calcite-panel>
-          <calcite-block
-            id="layer-list-block"
-            heading="Layer List"
-            label="Layer List"
-            open
-          >
-            <arcgis-layer-list
-              drag-enabled
-              reference-element="arcgis-map"
-              min-filter-items="1"
-              selection-mode="multiple"
-              show-filter
-              visibility-appearance="checkbox"
-            ></arcgis-layer-list>
-          </calcite-block>
-          <calcite-block
-            id="legend-block"
-            hidden
-            heading="Legend"
-            label="Legend"
-          >
-            <arcgis-legend reference-element="arcgis-map"></arcgis-legend>
-          </calcite-block>
-        </calcite-panel>
-      </calcite-shell-panel>
-      <arcgis-map
-        id="arcgis-map"
-        item-id="ef2644781da844648e8bb30ab52a02bc"
-      ></arcgis-map>
+    <calcite-shell>
+      <arcgis-map item-id="62f9d6aabd024931a940c5f00d74d0ac">
+        <arcgis-legend position="bottom-left"></arcgis-legend>
+        <arcgis-table-list
+          position="top-right"
+          selection-mode="single"
+        ></arcgis-table-list>
+      </arcgis-map>
+      <arcgis-feature-table></arcgis-feature-table>
     </calcite-shell>
     <script type="module" src="/src/main.ts"></script>
   </body>
