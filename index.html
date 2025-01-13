@@ -7,16 +7,22 @@
     <title>ArcGIS Map Components</title>
   </head>
   <body>
-    <calcite-shell>
-      <arcgis-map item-id="62f9d6aabd024931a940c5f00d74d0ac">
-        <arcgis-legend position="bottom-left"></arcgis-legend>
-        <arcgis-table-list
-          position="top-right"
-          selection-mode="single"
-        ></arcgis-table-list>
-      </arcgis-map>
-      <arcgis-feature-table></arcgis-feature-table>
-    </calcite-shell>
+    <arcgis-map item-id="d6d2cd9d0d2747be885ab6e68aa325ab">
+      <arcgis-placement position="top-right">
+        <calcite-label id="filter-label"
+          >Filter all lists
+          <calcite-input-text id="filter-input"></calcite-input-text>
+        </calcite-label>
+      </arcgis-placement>
+      <arcgis-catalog-layer-list
+        position="top-left"
+      ></arcgis-catalog-layer-list>
+      <arcgis-table-list position="bottom-left"></arcgis-table-list>
+      <arcgis-basemap-layer-list
+        position="bottom-left"
+      ></arcgis-basemap-layer-list>
+      <arcgis-layer-list position="bottom-left"></arcgis-layer-list>
+    </arcgis-map>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
