@@ -1,64 +1,68 @@
-import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
-import Layer from "@arcgis/core/layers/Layer";
-import PortalItem from "@arcgis/core/portal/PortalItem";
-import "@arcgis/map-components/dist/components/arcgis-expand";
-import "@arcgis/map-components/dist/components/arcgis-feature-table";
-import "@arcgis/map-components/dist/components/arcgis-legend";
+import esriConfig from "@arcgis/core/config";
+import CatalogLayer from "@arcgis/core/layers/CatalogLayer";
+import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
+import TableListItem from "@arcgis/core/widgets/TableList/ListItem";
+import "@arcgis/map-components/dist/components/arcgis-basemap-layer-list";
+import "@arcgis/map-components/dist/components/arcgis-catalog-layer-list";
+import "@arcgis/map-components/dist/components/arcgis-layer-list";
 import "@arcgis/map-components/dist/components/arcgis-map";
+import "@arcgis/map-components/dist/components/arcgis-placement";
 import "@arcgis/map-components/dist/components/arcgis-table-list";
 import { setAssetPath } from "@esri/calcite-components/dist/components";
-import "@esri/calcite-components/dist/components/calcite-shell";
+import "@esri/calcite-components/dist/components/calcite-input-text";
+import "@esri/calcite-components/dist/components/calcite-label";
 import "./style.css";
 
 setAssetPath(
   "https://cdn.jsdelivr.net/npm/@esri/calcite-components@3.0.0-next.89/dist/calcite/assets"
 );
 
-const arcgisFeatureTable = document.querySelector("arcgis-feature-table");
+esriConfig.portalUrl = "https://devtesting.mapsdevext.arcgis.com/";
+
+const arcgisBasemapLayerList = document.querySelector(
+  "arcgis-basemap-layer-list"
+) as HTMLArcgisBasemapLayerListElement;
+const arcgisCatalogLayerList = document.querySelector(
+  "arcgis-catalog-layer-list"
+) as HTMLArcgisCatalogLayerListElement;
+const arcgisLayerList = document.querySelector(
+  "arcgis-layer-list"
+) as HTMLArcgisLayerListElement;
+const arcgisTableList = document.querySelector(
+  "arcgis-table-list"
+) as HTMLArcgisTableListElement;
+const filterInput = document.querySelector(
+  "#filter-input"
+) as HTMLCalciteInputTextElement;
+
 const arcgisMap = document.querySelector("arcgis-map");
-const arcgisTableList = document.querySelector("arcgis-table-list");
 
-if (arcgisMap.ready) {
-  addTable();
+if (arcgisMap?.ready) {
+  init();
 } else {
-  arcgisMap.addEventListener("arcgisViewReadyChange", addTable);
+  arcgisMap?.addEventListener("arcgisViewReadyChange", () => {
+    init();
+  });
 }
 
-if (arcgisTableList) {
-  if (arcgisTableList.state === "ready") {
-    handleTableListReady();
-  } else {
-    arcgisTableList.addEventListener("arcgisReady", handleTableListReady);
-  }
-}
+async function init() {
+  const catalogLayer = arcgisMap?.map.layers.find(
+    (layer) => layer.title === "Sanborn maps catalog"
+  );
+  arcgisCatalogLayerList.catalogLayer = catalogLayer as CatalogLayer;
 
-function handleTableListReady() {
-  reactiveUtils.watch(
-    () =>
-      arcgisFeatureTable ? arcgisTableList.selectedItems.at(0)?.layer : null,
-    async (layer) => {
-      if (!layer) {
-        return;
-      }
-      await layer.load();
-      // is the selected item still the same after the layer is loaded
-      if (layer === arcgisTableList.selectedItems.at(0)?.layer) {
-        arcgisFeatureTable.layer = layer;
-      }
+  filterInput.addEventListener(
+    "calciteInputTextInput",
+    (event: { target: HTMLCalciteInputTextElement }) => {
+      console.log("filtering for", event.target?.value);
+      const filterPredicate = (item: ListItem | TableListItem) =>
+        item.title.toLowerCase().includes(event.target.value.toLowerCase());
+
+      arcgisBasemapLayerList.baseFilterPredicate = filterPredicate;
+      arcgisBasemapLayerList.referenceFilterPredicate = filterPredicate;
+      arcgisCatalogLayerList.filterPredicate = filterPredicate;
+      arcgisLayerList.filterPredicate = filterPredicate;
+      arcgisTableList.filterPredicate = filterPredicate;
     }
   );
-}
-
-async function addTable() {
-  const table = await Layer.fromPortalItem({
-    portalItem: new PortalItem({
-      id: "6aa49be79248400ebd28f1d0c6af3f9f",
-    }),
-  });
-  await table.load();
-
-  if (table.isTable) {
-    table.title = "Table from portal item";
-    arcgisMap.map.tables.add(table);
-  }
 }
