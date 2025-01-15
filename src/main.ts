@@ -1,6 +1,8 @@
 import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import type WebMap from "@arcgis/core/WebMap";
 import type ListItem from "@arcgis/core/widgets/LayerList/ListItem";
+import "@arcgis/map-components/dist/components/arcgis-basemap-layer-list";
+import "@arcgis/map-components/dist/components/arcgis-table-list";
 import "@arcgis/map-components/dist/components/arcgis-layer-list";
 import "@arcgis/map-components/dist/components/arcgis-legend";
 import "@arcgis/map-components/dist/components/arcgis-map";
@@ -33,25 +35,25 @@ const shellPanel = document.querySelector(
 ) as HTMLCalciteShellPanelElement;
 
 if (shellPanel) {
-  shellPanel.querySelectorAll("calcite-action").forEach((action) => {
+  const actions = shellPanel.querySelectorAll("calcite-action");
+  const blocks = shellPanel.querySelectorAll(".component-container");
+
+  actions.forEach((action) => {
     action.addEventListener("click", (event) => {
       const target = event.target as HTMLCalciteActionElement;
-      shellPanel.querySelectorAll("calcite-block").forEach((block) => {
-        if (block.id.split("-")[0] === target.id.split("-")[0]) {
-          block.open = true;
-          block.hidden = false;
-        } else {
-          block.open = false;
-          block.hidden = true;
-        }
+      const targetIdPrefix = target.id.split("-")[0];
+
+      blocks.forEach((block) => {
+        const blockElement = block as HTMLCalciteBlockElement;
+        const blockIdPrefix = block.id.split("-")[0];
+        const isTargetBlock = blockIdPrefix === targetIdPrefix;
+
+        blockElement.open = isTargetBlock;
+        blockElement.hidden = !isTargetBlock;
       });
 
-      shellPanel.querySelectorAll("calcite-action").forEach((action) => {
-        if (action.id === target.id) {
-          action.active = true;
-        } else {
-          action.active = false;
-        }
+      actions.forEach((action) => {
+        action.active = action.id === target.id;
       });
     });
   });

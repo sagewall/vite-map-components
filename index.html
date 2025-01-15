@@ -43,7 +43,17 @@
             active
             id="layer-list-action"
             icon="layers"
-            text="Layer List"
+            text="LayerList"
+          ></calcite-action>
+          <calcite-action
+            id="basemap-layer-list-action"
+            icon="basemap"
+            text="BasemapLayerList"
+          ></calcite-action>
+          <calcite-action
+            id="table-list-action"
+            icon="tables"
+            text="TableList"
           ></calcite-action>
           <calcite-action
             id="legend-action"
@@ -54,6 +64,7 @@
         <calcite-panel>
           <calcite-block
             id="layer-list-block"
+            class="component-container"
             heading="Layer List"
             label="Layer List"
             open
@@ -68,9 +79,36 @@
             ></arcgis-layer-list>
           </calcite-block>
           <calcite-block
-            id="legend-block"
+            id="basemap-layer-list-block"
+            class="component-container"
+            heading="BasemapLayerList"
             hidden
+            label="BasemapLayerList"
+          >
+            <arcgis-basemap-layer-list
+              drag-enabled
+              reference-element="arcgis-map"
+              min-filter-items="1"
+              selection-mode="multiple"
+              visibility-appearance="checkbox"
+            ></arcgis-basemap-layer-list>
+          </calcite-block>
+          <calcite-block
+            id="table-list-block"
+            class="component-container"
+            heading="TableList"
+            hidden
+            label="TableList"
+          >
+            <arcgis-table-list
+              reference-element="arcgis-map"
+            ></arcgis-table-list>
+          </calcite-block>
+          <calcite-block
+            id="legend-block"
+            class="component-container"
             heading="Legend"
+            hidden
             label="Legend"
           >
             <arcgis-legend reference-element="arcgis-map"></arcgis-legend>
