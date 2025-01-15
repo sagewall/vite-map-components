@@ -18,7 +18,7 @@ import "@esri/calcite-components/dist/components/calcite-shell-panel";
 import "./style.css";
 
 setAssetPath(
-  "https://cdn.jsdelivr.net/npm/@esri/calcite-components@3.0.0-next.89/dist/calcite/assets"
+  "https://cdn.jsdelivr.net/npm/@esri/calcite-components@3.0.0-next.100/dist/calcite/assets"
 );
 
 const arcgisLayerList = document.querySelector(
