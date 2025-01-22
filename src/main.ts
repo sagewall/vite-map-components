@@ -46,7 +46,6 @@ homeMenuItem.label = "Home";
 homeMenuItem.text = "Home";
 
 homeMenuItem.addEventListener("calciteMenuItemSelect", () => {
-  homeMenuItem.active = true;
   window.location.href = "/index.html";
 });
 
@@ -58,7 +57,6 @@ statsMenuItem.label = "Stats";
 statsMenuItem.text = "Stats";
 
 statsMenuItem.addEventListener("calciteMenuItemSelect", () => {
-  statsMenuItem.active = true;
   window.location.href = "/stats.html";
 });
 
@@ -70,7 +68,6 @@ bundleStatsMenuItem.label = "Bundle Stats";
 bundleStatsMenuItem.text = "Bundle Stats";
 
 bundleStatsMenuItem.addEventListener("calciteMenuItemSelect", () => {
-  bundleStatsMenuItem.active = true;
   window.location.href = "/bundle-stats.html";
 });
 
