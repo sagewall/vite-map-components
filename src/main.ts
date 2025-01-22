@@ -79,99 +79,6 @@ appMenu.appendChild(bundleStatsMenuItem);
 appNavigation.appendChild(appMenu);
 appShell.appendChild(appNavigation);
 
-// Components Shell Panel
-
-const componentsShellPanel = document.createElement("calcite-shell-panel");
-componentsShellPanel.displayMode = "float";
-componentsShellPanel.position = "start";
-componentsShellPanel.slot = "panel-start";
-
-// Action Bar
-
-const componentsActionBar = document.createElement("calcite-action-bar");
-componentsActionBar.slot = "action-bar";
-
-// LayerList action
-
-const layerListAction = document.createElement("calcite-action");
-layerListAction.active = true;
-layerListAction.icon = "layers";
-layerListAction.label = "LayerList";
-layerListAction.text = "LayerList";
-
-layerListAction.addEventListener("click", () => {
-  layerListBlock.open = true;
-  layerListBlock.hidden = false;
-  basemapLayerListBlock.open = false;
-  basemapLayerListBlock.hidden = true;
-  tableListBlock.open = false;
-  tableListBlock.hidden = true;
-  legendBlock.open = false;
-  legendBlock.hidden = true;
-});
-
-componentsActionBar.appendChild(layerListAction);
-
-const basemapLayerListAction = document.createElement("calcite-action");
-basemapLayerListAction.icon = "basemap";
-basemapLayerListAction.label = "BasemapLayerList";
-basemapLayerListAction.text = "BasemapLayerList";
-
-basemapLayerListAction.addEventListener("click", () => {
-  layerListBlock.open = false;
-  layerListBlock.hidden = true;
-  basemapLayerListBlock.open = true;
-  basemapLayerListBlock.hidden = false;
-  tableListBlock.open = false;
-  tableListBlock.hidden = true;
-  legendBlock.open = false;
-  legendBlock.hidden = true;
-});
-
-componentsActionBar.appendChild(basemapLayerListAction);
-
-// TableList action
-
-const tableListAction = document.createElement("calcite-action");
-tableListAction.icon = "tables";
-tableListAction.label = "TableList";
-tableListAction.text = "TableList";
-
-tableListAction.addEventListener("click", () => {
-  layerListBlock.open = false;
-  layerListBlock.hidden = true;
-  basemapLayerListBlock.open = false;
-  basemapLayerListBlock.hidden = true;
-  tableListBlock.open = true;
-  tableListBlock.hidden = false;
-  legendBlock.open = false;
-  legendBlock.hidden = true;
-});
-
-componentsActionBar.appendChild(tableListAction);
-
-// Legend action
-
-const legendAction = document.createElement("calcite-action");
-legendAction.icon = "legend";
-legendAction.label = "Legend";
-legendAction.text = "Legend";
-
-legendAction.addEventListener("click", () => {
-  layerListBlock.open = false;
-  layerListBlock.hidden = true;
-  basemapLayerListBlock.open = false;
-  basemapLayerListBlock.hidden = true;
-  tableListBlock.open = false;
-  tableListBlock.hidden = true;
-  legendBlock.open = true;
-  legendBlock.hidden = false;
-});
-
-componentsActionBar.appendChild(legendAction);
-
-componentsShellPanel.appendChild(componentsActionBar);
-
 // ArcGIS Map
 
 const arcgisMap = document.createElement("arcgis-map");
@@ -196,7 +103,6 @@ const componentsPanel = document.createElement("calcite-panel");
 // LayerList
 
 const layerListBlock = document.createElement("calcite-block");
-layerListBlock.classList.add("component-container");
 layerListBlock.heading = "LayerList";
 layerListBlock.label = "LayerList";
 layerListBlock.open = true;
@@ -269,7 +175,6 @@ componentsPanel.appendChild(layerListBlock);
 // BasemapLayerList
 
 const basemapLayerListBlock = document.createElement("calcite-block");
-basemapLayerListBlock.classList.add("component-container");
 basemapLayerListBlock.heading = "BasemapLayerList";
 basemapLayerListBlock.hidden = true;
 basemapLayerListBlock.label = "BasemapLayerList";
@@ -289,7 +194,6 @@ componentsPanel.appendChild(basemapLayerListBlock);
 // TableList
 
 const tableListBlock = document.createElement("calcite-block");
-tableListBlock.classList.add("component-container");
 tableListBlock.heading = "TableList";
 tableListBlock.hidden = true;
 tableListBlock.label = "TableList";
@@ -306,7 +210,6 @@ componentsPanel.appendChild(tableListBlock);
 // Legend
 
 const legendBlock = document.createElement("calcite-block");
-legendBlock.classList.add("component-container");
 legendBlock.heading = "Legend";
 legendBlock.hidden = true;
 legendBlock.label = "Legend";
@@ -317,7 +220,103 @@ arcgisLegend.referenceElement = arcgisMap;
 legendBlock.appendChild(arcgisLegend);
 componentsPanel.appendChild(legendBlock);
 
+// Components Shell Panel
+
+const componentsShellPanel = document.createElement("calcite-shell-panel");
+componentsShellPanel.displayMode = "float";
+componentsShellPanel.position = "start";
+componentsShellPanel.slot = "panel-start";
+
+// Action Bar
+
+const componentsActionBar = document.createElement("calcite-action-bar");
+componentsActionBar.slot = "action-bar";
+
+// LayerList action
+
+const layerListAction = document.createElement("calcite-action");
+layerListAction.active = true;
+layerListAction.icon = "layers";
+layerListAction.label = "LayerList";
+layerListAction.text = "LayerList";
+
+layerListAction.addEventListener("click", () => {
+  handleActionClick(layerListAction, layerListBlock);
+});
+
+componentsActionBar.appendChild(layerListAction);
+
+const basemapLayerListAction = document.createElement("calcite-action");
+basemapLayerListAction.icon = "basemap";
+basemapLayerListAction.label = "BasemapLayerList";
+basemapLayerListAction.text = "BasemapLayerList";
+
+basemapLayerListAction.addEventListener("click", () => {
+  handleActionClick(basemapLayerListAction, basemapLayerListBlock);
+});
+
+componentsActionBar.appendChild(basemapLayerListAction);
+
+// TableList action
+
+const tableListAction = document.createElement("calcite-action");
+tableListAction.icon = "tables";
+tableListAction.label = "TableList";
+tableListAction.text = "TableList";
+
+tableListAction.addEventListener("click", () => {
+  handleActionClick(tableListAction, tableListBlock);
+});
+
+componentsActionBar.appendChild(tableListAction);
+
+// Legend action
+
+const legendAction = document.createElement("calcite-action");
+legendAction.icon = "legend";
+legendAction.label = "Legend";
+legendAction.text = "Legend";
+
+legendAction.addEventListener("click", () => {
+  handleActionClick(legendAction, legendBlock);
+});
+
+componentsActionBar.appendChild(legendAction);
+componentsShellPanel.appendChild(componentsActionBar);
 componentsShellPanel.appendChild(componentsPanel);
 appShell.appendChild(componentsShellPanel);
-
 document.querySelector("#app")?.appendChild(appShell);
+
+function handleActionClick(
+  action: HTMLCalciteActionElement,
+  block: HTMLCalciteBlockElement
+) {
+  const componentActions = [
+    layerListAction,
+    basemapLayerListAction,
+    tableListAction,
+    legendAction,
+  ];
+  const componentBlocks = [
+    layerListBlock,
+    basemapLayerListBlock,
+    tableListBlock,
+    legendBlock,
+  ];
+
+  action.active = true;
+  componentActions.forEach((componentAction) => {
+    if (componentAction !== action) {
+      componentAction.active = false;
+    }
+  });
+
+  block.open = true;
+  block.hidden = false;
+  componentBlocks.forEach((componentBlock) => {
+    if (componentBlock !== block) {
+      componentBlock.open = false;
+      componentBlock.hidden = true;
+    }
+  });
+}
