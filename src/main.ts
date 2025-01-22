@@ -222,7 +222,7 @@ arcgisLayerList.listItemCreatedFunction = (event) => {
   ];
 };
 arcgisLayerList.minFilterItems = 1;
-arcgisLayerList.referenceElement = "arcgis-map";
+arcgisLayerList.referenceElement = arcgisMap;
 arcgisLayerList.selectionMode = "multiple";
 arcgisLayerList.showFilter = true;
 arcgisLayerList.visibilityAppearance = "checkbox";
@@ -279,7 +279,7 @@ const arcgisBasemapLayerList = document.createElement(
 );
 arcgisBasemapLayerList.dragEnabled = true;
 arcgisBasemapLayerList.minFilterItems = 1;
-arcgisBasemapLayerList.referenceElement = "arcgis-map";
+arcgisBasemapLayerList.referenceElement = arcgisMap;
 arcgisBasemapLayerList.selectionMode = "multiple";
 arcgisBasemapLayerList.visibilityAppearance = "checkbox";
 
@@ -297,7 +297,7 @@ tableListBlock.label = "TableList";
 const arcgisTableList = document.createElement("arcgis-table-list");
 arcgisTableList.dragEnabled = true;
 arcgisTableList.minFilterItems = 1;
-arcgisTableList.referenceElement = "arcgis-map";
+arcgisTableList.referenceElement = arcgisMap;
 arcgisTableList.selectionMode = "multiple";
 
 tableListBlock.appendChild(arcgisTableList);
@@ -312,7 +312,7 @@ legendBlock.hidden = true;
 legendBlock.label = "Legend";
 
 const arcgisLegend = document.createElement("arcgis-legend");
-arcgisLegend.referenceElement = "arcgis-map";
+arcgisLegend.referenceElement = arcgisMap;
 
 legendBlock.appendChild(arcgisLegend);
 componentsPanel.appendChild(legendBlock);
