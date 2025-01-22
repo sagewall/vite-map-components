@@ -20,7 +20,7 @@ import "@esri/calcite-components/dist/components/calcite-shell-panel";
 import "./style.css";
 
 setAssetPath(
-  "https://cdn.jsdelivr.net/npm/@esri/calcite-components@3.0.0-next.100/dist/calcite/assets"
+  "https://cdn.jsdelivr.net/npm/@esri/calcite-components@3.0.0-next.106/dist/calcite/assets"
 );
 
 const arcgisLayerList = document.querySelector(
@@ -63,10 +63,10 @@ if (arcgisMap && navigationLogo) {
   arcgisMap.addEventListener("arcgisViewReadyChange", (event) => {
     const { map } = event.target;
     const { portalItem } = map as WebMap;
-    navigationLogo.heading = portalItem.title;
-    navigationLogo.description = portalItem.snippet;
-    navigationLogo.thumbnail = portalItem.thumbnailUrl;
-    navigationLogo.href = portalItem.itemPageUrl;
+    navigationLogo.heading = portalItem?.title ?? "";
+    navigationLogo.description = portalItem?.snippet ?? "";
+    navigationLogo.thumbnail = portalItem?.thumbnailUrl ?? "";
+    navigationLogo.href = portalItem?.itemPageUrl ?? "";
     navigationLogo.label = "Thumbnail of map";
   });
 }
@@ -81,15 +81,15 @@ if (arcgisLayerList) {
         removed: Array<ListItem>;
       }) => {
         arcgisLayerList.selectedItems.forEach((item: ListItem) => {
-          console.log(item.layer.title);
+          console.log(item.layer?.title);
         });
         event.added.forEach((item: ListItem) => {
-          if (item.layer.type === "feature") {
+          if (item.layer?.type === "feature") {
             (item.layer as FeatureLayer).effect = "opacity(0.5)";
           }
         });
         event.removed.forEach((item: ListItem) => {
-          if (item.layer.type === "feature") {
+          if (item.layer?.type === "feature") {
             (item.layer as FeatureLayer).effect = "none";
           }
         });
@@ -119,7 +119,7 @@ if (arcgisLayerList) {
     const { action, item } = event.detail;
 
     if (action.id === "information") {
-      if ("url" in item.layer) {
+      if (item.layer && "url" in item.layer) {
         const url = item.layer.url as string | URL;
         window.open(url);
       }
