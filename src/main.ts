@@ -20,7 +20,7 @@ import "@esri/calcite-components/dist/components/calcite-shell-panel";
 import "./style.css";
 
 setAssetPath(
-  "https://cdn.jsdelivr.net/npm/@esri/calcite-components@3.0.0-next.106/dist/calcite/assets"
+  "https://cdn.jsdelivr.net/npm/@esri/calcite-components@3.0.0-next.123/dist/calcite/assets"
 );
 
 // App shell
