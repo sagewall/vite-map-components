@@ -1,27 +1,22 @@
 import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import type WebMap from "@arcgis/core/WebMap";
 import type ListItem from "@arcgis/core/widgets/LayerList/ListItem";
-import "@arcgis/map-components/dist/components/arcgis-basemap-layer-list";
-import "@arcgis/map-components/dist/components/arcgis-layer-list";
-import "@arcgis/map-components/dist/components/arcgis-legend";
-import "@arcgis/map-components/dist/components/arcgis-map";
-import "@arcgis/map-components/dist/components/arcgis-table-list";
-import { setAssetPath } from "@esri/calcite-components/dist/components";
-import "@esri/calcite-components/dist/components/calcite-action";
-import "@esri/calcite-components/dist/components/calcite-action-bar";
-import "@esri/calcite-components/dist/components/calcite-block";
-import "@esri/calcite-components/dist/components/calcite-button";
-import "@esri/calcite-components/dist/components/calcite-menu";
-import "@esri/calcite-components/dist/components/calcite-menu-item";
-import "@esri/calcite-components/dist/components/calcite-navigation";
-import "@esri/calcite-components/dist/components/calcite-navigation-logo";
-import "@esri/calcite-components/dist/components/calcite-shell";
-import "@esri/calcite-components/dist/components/calcite-shell-panel";
+import "@arcgis/map-components/components/arcgis-basemap-layer-list";
+import "@arcgis/map-components/components/arcgis-layer-list";
+import "@arcgis/map-components/components/arcgis-legend";
+import "@arcgis/map-components/components/arcgis-map";
+import "@arcgis/map-components/components/arcgis-table-list";
+import "@esri/calcite-components/components/calcite-action";
+import "@esri/calcite-components/components/calcite-action-bar";
+import "@esri/calcite-components/components/calcite-block";
+import "@esri/calcite-components/components/calcite-button";
+import "@esri/calcite-components/components/calcite-menu";
+import "@esri/calcite-components/components/calcite-menu-item";
+import "@esri/calcite-components/components/calcite-navigation";
+import "@esri/calcite-components/components/calcite-navigation-logo";
+import "@esri/calcite-components/components/calcite-shell";
+import "@esri/calcite-components/components/calcite-shell-panel";
 import "./style.css";
-
-setAssetPath(
-  "https://cdn.jsdelivr.net/npm/@esri/calcite-components@3.0.0-next.123/dist/calcite/assets"
-);
 
 // App shell
 
