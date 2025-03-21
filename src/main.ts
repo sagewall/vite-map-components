@@ -22,6 +22,7 @@ import "./style.css";
 
 const appShell = document.createElement("calcite-shell");
 appShell.contentBehind = true;
+document.querySelector("#app")?.appendChild(appShell);
 
 // Navigation
 
@@ -75,18 +76,15 @@ appShell.appendChild(appNavigation);
 
 const arcgisMap = document.createElement("arcgis-map");
 arcgisMap.itemId = "ef2644781da844648e8bb30ab52a02bc";
-
-arcgisMap.addEventListener("arcgisViewReadyChange", (event) => {
-  const { map } = event.target;
-  const { portalItem } = map as WebMap;
-  appNavigationLogo.heading = portalItem?.title ?? "";
-  appNavigationLogo.description = portalItem?.snippet ?? "";
-  appNavigationLogo.thumbnail = portalItem?.thumbnailUrl ?? "";
-  appNavigationLogo.href = portalItem?.itemPageUrl ?? "";
-  appNavigationLogo.label = "Thumbnail of map";
-});
-
 appShell.appendChild(arcgisMap);
+
+await arcgisMap.viewOnReady();
+const { portalItem } = arcgisMap.map as WebMap;
+appNavigationLogo.heading = portalItem?.title ?? "";
+appNavigationLogo.description = portalItem?.snippet ?? "";
+appNavigationLogo.thumbnail = portalItem?.thumbnailUrl ?? "";
+appNavigationLogo.href = portalItem?.itemPageUrl ?? "";
+appNavigationLogo.label = "Thumbnail of map";
 
 // Components Panel
 
@@ -277,7 +275,6 @@ componentsActionBar.appendChild(legendAction);
 componentsShellPanel.appendChild(componentsActionBar);
 componentsShellPanel.appendChild(componentsPanel);
 appShell.appendChild(componentsShellPanel);
-document.querySelector("#app")?.appendChild(appShell);
 
 function handleActionClick(
   action: HTMLCalciteActionElement,
