@@ -67,7 +67,7 @@ async function init() {
   arcgisLayerList.dragEnabled = true;
   arcgisLayerList.listItemCreatedFunction = (event) => {
     const { item } = event;
-    if (item.layer.type != "group") {
+    if (item.layer?.type != "group") {
       item.panel = {
         content: "legend",
       };
