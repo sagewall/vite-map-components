@@ -61,7 +61,7 @@ async function init() {
   const layerListBlock = document.createElement("calcite-block");
   layerListBlock.heading = "LayerList";
   layerListBlock.label = "LayerList";
-  layerListBlock.open = true;
+  layerListBlock.expanded = true;
 
   const arcgisLayerList = document.createElement("arcgis-layer-list");
   arcgisLayerList.dragEnabled = true;
@@ -266,11 +266,11 @@ async function init() {
       }
     });
 
-    block.open = true;
+    block.expanded = true;
     block.hidden = false;
     componentBlocks.forEach((componentBlock) => {
       if (componentBlock !== block) {
-        componentBlock.open = false;
+        componentBlock.expanded = false;
         componentBlock.hidden = true;
       }
     });
