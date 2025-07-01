@@ -1,4 +1,5 @@
 import esriConfig from "@arcgis/core/config";
+import esriRequest from "@arcgis/core/request";
 import Circle from "@arcgis/core/geometry/Circle";
 import type Point from "@arcgis/core/geometry/Point";
 import Graphic from "@arcgis/core/Graphic";
@@ -59,15 +60,7 @@ async function init() {
     basemap: "arcgis/navigation",
     layers: [placesLayer, bufferLayer],
   });
-  // @@End(map) @@Start(clearGraphics)
-  // Clear graphics and results from the previous place search
-  function clearGraphics() {
-    bufferLayer.removeAll(); // Remove graphics from GraphicsLayer of previous buffer
-    placesLayer.removeAll(); // Remove graphics from GraphicsLayer of previous places search
-    resultsList.innerHTML = "";
-    if (flowItem) flowItem.remove();
-  }
-  // @@End(clearGraphics) @@Start(onClick)
+  // @@End(map) @@Start(onClick)
   // View on-click event to capture places search location
   viewElement.addEventListener("arcgisViewClick", (event) => {
     clearGraphics();
@@ -83,7 +76,40 @@ async function init() {
     // Pass point to the showPlaces() function with new category value
     clickPoint && showPlaces(clickPoint);
   });
-  // @@End(addEventListener) @@Start(showPlaces)
+  // @@End(addEventListener)
+
+  // @@Start(getCategories)
+  // Get categories from the Places service
+  const response = await esriRequest(
+    "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/categories",
+    {
+      responseType: "json",
+    }
+  );
+  const categories = response.data.categories;
+  console.log("Categories:", categories);
+  // Create a combobox item for each category
+  categories.forEach((category: any) => {
+    const item = document.createElement("calcite-combobox-item");
+    item.description = category.fullLabel[0] || "";
+    item.heading = category.fullLabel[1] || "";
+    item.label = category.fullLabel;
+    item.value = category.categoryId;
+    // item.selected = category.categoryId === activeCategory; // Set the active category as selected
+    categoryCombobox.appendChild(item);
+  });
+  // @@End(getCategories)
+
+  // @@Start(clearGraphics)
+  // Clear graphics and results from the previous place search
+  function clearGraphics() {
+    bufferLayer.removeAll(); // Remove graphics from GraphicsLayer of previous buffer
+    placesLayer.removeAll(); // Remove graphics from GraphicsLayer of previous places search
+    resultsList.innerHTML = "";
+    if (flowItem) flowItem.remove();
+  }
+
+  // @@End(clearGraphics) @@Start(showPlaces)
   // Display map click search area and pass to places service
   async function showPlaces(placePoint: Point) {
     // Buffer graphic represents click location and search radius
