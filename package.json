@@ -10,11 +10,11 @@
   },
   "devDependencies": {
     "lightningcss": "^1.30.1",
-    "typescript": "~5.7.2",
-    "vite": "^6.2.0"
+    "typescript": "~5.8.3",
+    "vite": "^7.0.0"
   },
   "dependencies": {
-    "@arcgis/core": "4.33.0-next.20250616",
-    "@arcgis/map-components": "4.33.0-next.162"
+    "@arcgis/core": "4.33.6",
+    "@arcgis/map-components": "4.33.7"
   }
 }
