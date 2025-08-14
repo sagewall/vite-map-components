@@ -14,6 +14,6 @@
     "vite": "^7.1.1"
   },
   "dependencies": {
-    "@arcgis/map-components": "^4.34.0-next.90"
+    "@arcgis/map-components": "^4.34.0-next.99"
   }
 }
